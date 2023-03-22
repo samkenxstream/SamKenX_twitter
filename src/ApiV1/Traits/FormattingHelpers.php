@@ -32,7 +32,7 @@ trait FormattingHelpers
         $patterns = [];
         $patterns['url'] = '(?xi)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))';
         $patterns['mailto'] = '([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3}))';
-        $patterns['user'] = '(?: +|^)@([A-Za-z0-9_]*)?';
+        $patterns['user'] = '(?:\s+|^)@([A-Za-z0-9_]*)?';
         $patterns['hashtag'] = '(?:(?<=\s)|^)#(\w*[\p{L}\-\d\p{Cyrillic}\d]+\w*)';
         $patterns['long_url'] = '>(([[:alnum:]]+:\/\/)|www\.)?([^[:space:]]{12,22})([^[:space:]]*)([^[:space:]]{12,22})([[:alnum:]#?\/&=])<';
 
@@ -41,9 +41,9 @@ trait FormattingHelpers
                 '#' . $patterns['url'] . '#i',
                 static function ($matches) {
                     $input = $matches[0];
-                    $url = preg_match('!^https?://!i', $input) ? $input : "http://${input}";
+                    $url = preg_match('!^https?://!i', $input) ? $input : "http://{$input}";
 
-                    return '<a href="' . $url . '" target="_blank" rel="nofollow">' . "${input}</a>";
+                    return '<a href="' . $url . '" target="_blank" rel="nofollow">' . "{$input}</a>";
                 },
                 sprintf(' %s', $tweet)
             );
